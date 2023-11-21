@@ -1,0 +1,25 @@
+server:
+  port: 5555
+spring:
+ cloud:
+   gateway:
+     routes:
+       - id: address-service
+         uri: lb://address-service
+         predicates:
+           - Path=/address/**     
+           
+       - id: customer-service
+         uri: lb://customer-service
+         predicates:
+           - Path=/customer/**
+         filters:
+           - AuthenticationFilter
+
+ application:
+   name: DEMO-GATEWAY
+
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:8761/eureka/
